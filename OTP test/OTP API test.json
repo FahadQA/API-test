@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "c27af76d-3bfc-40bd-a75d-4a57eaef37ef",
+		"name": "OTP test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "generate OTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"otp\": 0,\r\n  \"roleId\": 0,\r\n  \"mobileNumber\": \"01835679691\",\r\n  \"deviceType\": \"Android\",\r\n  \"deviceToken\": \"string\",\r\n  \"partnerApp\": true,\r\n  \"bangla\": true,\r\n  \"enterprise\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}/api/v1/auth/generateOtp",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"generateOtp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get OTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b97da15f-e607-4386-8051-3dd4db54ba11",
+						"exec": [
+							"var JsonBody = pm.response.json();",
+							"",
+							"pm.globals.set(\"OTP\", JsonBody.data.otp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "mobileNumber",
+						"value": "01835679691",
+						"type": "text"
+					},
+					{
+						"key": "secret",
+						"value": "123456",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseurl}}/api/v1/auth/getOtp?mobileNumber=01835679691&secret=123456",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"getOtp"
+					],
+					"query": [
+						{
+							"key": "mobileNumber",
+							"value": "01835679691"
+						},
+						{
+							"key": "secret",
+							"value": "123456"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify OTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"otp\": {{OTP}},\r\n  \"roleId\": 0,\r\n  \"mobileNumber\": \"01911213803\",\r\n  \"deviceType\": \"Android\",\r\n  \"deviceToken\": \"string\",\r\n  \"partnerApp\": true,\r\n  \"bangla\": true,\r\n  \"enterprise\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}/api/v1/auth/verifyOtp",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"verifyOtp"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "729ddd84-29e3-4a12-a5f3-4dd343cbc456",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e3f14694-8d8a-486f-9756-d8a64a80638f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "431d082b-4229-4a07-ad2f-6927826858bb",
+			"key": "baseurl",
+			"value": "https://dev2.gim.com.bd/ejogajog",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
